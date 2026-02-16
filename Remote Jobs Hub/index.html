@@ -1,0 +1,1633 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Jobs Hub - Find Trusted Remote Jobs in One Place</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4F46E5;
+            --secondary-color: #06B6D4;
+            --accent-color: #10B981;
+            --dark-bg: #1F2937;
+            --light-bg: #F9FAFB;
+            --text-dark: #111827;
+            --text-light: #6B7280;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--light-bg);
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            box-shadow: var(--card-shadow);
+            outline: none;
+        }
+
+        .search-bar:focus {
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .category-btn {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* AI Suggestions */
+        .ai-suggestions {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .ai-suggestions h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .top-picks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .top-pick-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .top-pick-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .top-pick-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .top-pick-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Category Sections */
+        .category-section {
+            margin-bottom: 4rem;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+        }
+
+        .category-header h2 {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+        }
+
+        /* Platform Cards */
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .platform-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .platform-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .platform-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .platform-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .platform-badge {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .platform-badge.premium {
+            background: #F59E0B;
+        }
+
+        .platform-badge.new {
+            background: #EC4899;
+        }
+
+        .platform-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .platform-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: var(--light-bg);
+            color: var(--text-light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+        }
+
+        .platform-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: gap 0.3s;
+        }
+
+        .platform-link:hover {
+            gap: 1rem;
+        }
+
+        /* About Page */
+        .about-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .about-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .about-section p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--light-bg);
+            border-radius: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Hidden class for page switching */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                gap: 0;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid var(--light-bg);
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .categories {
+                gap: 0.5rem;
+            }
+
+            .category-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .loading {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">
+                <span class="logo-icon">💼</span>
+                <span>Remote Jobs Hub</span>
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="active" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Find Trusted Remote Jobs in One Place</h1>
+                <p>Discover the best remote job platforms across all categories - from tech to freelance, all in one centralized hub.</p>
+
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <input type="text" class="search-bar" id="searchBar" placeholder="Search job platforms by name, category, or type..." oninput="filterPlatforms()">
+                </div>
+
+                <!-- Categories -->
+                <div class="categories">
+                    <button class="category-btn active" onclick="filterByCategory('all')">All</button>
+                    <button class="category-btn" onclick="filterByCategory('work-from-home')">Work-from-Home</button>
+                    <button class="category-btn" onclick="filterByCategory('freelance')">Freelance</button>
+                    <button class="category-btn" onclick="filterByCategory('tech')">Tech</button>
+                    <button class="category-btn" onclick="filterByCategory('global')">Global Online</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- AI Suggestions -->
+            <div class="ai-suggestions">
+                <div class="ai-badge">
+                    <span>✨</span>
+                    <span>AI-Powered Recommendations</span>
+                </div>
+                <h3>Top Picks for You This Week</h3>
+                <p>Based on current market trends and user ratings, these platforms are trending right now.</p>
+                <div class="top-picks">
+                    <div class="top-pick-card">
+                        <h4>🏆 FlexJobs</h4>
+                        <p>Best for verified, scam-free remote jobs across all industries</p>
+                    </div>
+                    <div class="top-pick-card">
+                        <h4>🚀 We Work Remotely</h4>
+                        <p>Largest remote work community with 4.5M+ visitors</p>
+                    </div>
+                    <div class="top-pick-card">
+                        <h4>💻 Remote.co</h4>
+                        <p>Best for remote work resources and company insights</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Work-from-Home Category -->
+            <div class="category-section" data-category="work-from-home">
+                <div class="category-header">
+                    <span class="category-icon">🏠</span>
+                    <h2>Work-from-Home Platforms</h2>
+                </div>
+                <div class="platforms-grid">
+                    <div class="platform-card" data-name="FlexJobs" data-tags="verified scam-free premium">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">FlexJobs</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Verified</span>
+                                    <span class="tag">Premium</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">Hand-screened, legitimate remote and flexible jobs. Every job is vetted to ensure it's 100% scam-free.</p>
+                        <a href="https://www.flexjobs.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Remote.co" data-tags="resources insights">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Remote.co</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Resources</span>
+                                    <span class="tag">Free</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">Remote job board with company profiles, remote work insights, and helpful resources for distributed teams.</p>
+                        <a href="https://remote.co" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Working Nomads" data-tags="curated daily">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Working Nomads</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Curated</span>
+                                    <span class="tag">Daily</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Curated remote job listings delivered daily. Focus on digital, marketing, development, and management roles.</p>
+                        <a href="https://www.workingnomads.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Remote OK" data-tags="tech global">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Remote OK</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Global</span>
+                                    <span class="tag">Tech</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">Over 1 million remote jobs with salary data. Features tech, non-tech, and location-flexible positions worldwide.</p>
+                        <a href="https://remoteok.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Virtual Vocations" data-tags="vetted telecommute">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Virtual Vocations</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Vetted</span>
+                                    <span class="tag">Telecommute</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Hand-screened telecommuting jobs since 2007. All listings are researched and verified for legitimacy.</p>
+                        <a href="https://www.virtualvocations.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Skip The Drive" data-tags="work-from-home US">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Skip The Drive</div>
+                                <div class="platform-tags">
+                                    <span class="tag">US-Based</span>
+                                    <span class="tag">Free</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Work-from-home jobs database with thousands of telecommuting positions. Focus on US-based opportunities.</p>
+                        <a href="https://www.skipthedrive.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Remote Year" data-tags="digital-nomad community">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Remote Year</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Digital Nomad</span>
+                                    <span class="tag">Community</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge new">New</span>
+                        </div>
+                        <p class="platform-description">Remote work programs and job opportunities for digital nomads. Combines work and travel experiences.</p>
+                        <a href="https://www.remoteyear.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="PowerToFly" data-tags="diversity women-in-tech">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">PowerToFly</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Diversity</span>
+                                    <span class="tag">Inclusive</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Remote jobs focused on diversity and inclusion. Connects underrepresented talent with companies committed to equity.</p>
+                        <a href="https://powertofly.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Dynamite Jobs" data-tags="remote curated">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Dynamite Jobs</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Curated</span>
+                                    <span class="tag">Quality</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Carefully curated remote job opportunities from top companies. Weekly newsletter with handpicked positions.</p>
+                        <a href="https://dynamitejobs.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Freelance Category -->
+            <div class="category-section" data-category="freelance">
+                <div class="category-header">
+                    <span class="category-icon">💰</span>
+                    <h2>Freelance Platforms</h2>
+                </div>
+                <div class="platforms-grid">
+                    <div class="platform-card" data-name="Upwork" data-tags="freelance marketplace global">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Upwork</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Marketplace</span>
+                                    <span class="tag">Global</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Top Rated</span>
+                        </div>
+                        <p class="platform-description">World's largest freelancing platform connecting businesses with skilled professionals across 12M+ registered freelancers.</p>
+                        <a href="https://www.upwork.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Fiverr" data-tags="freelance gigs services">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Fiverr</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Gigs</span>
+                                    <span class="tag">Services</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">Digital services marketplace where freelancers offer services starting at $5. Great for creative and digital services.</p>
+                        <a href="https://www.fiverr.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Toptal" data-tags="elite premium vetted">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Toptal</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Elite</span>
+                                    <span class="tag">Vetted</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge premium">Premium</span>
+                        </div>
+                        <p class="platform-description">Exclusive network of top 3% freelance talent. Rigorous screening ensures only elite developers, designers, and finance experts.</p>
+                        <a href="https://www.toptal.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Guru" data-tags="freelance safe payments">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Guru</div>
+                                <div class="platform-tags">
+                                    <span class="tag">SafePay</span>
+                                    <span class="tag">Flexible</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Flexible freelancing platform with SafePay payment protection, workrooms, and project management tools.</p>
+                        <a href="https://www.guru.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Freelancer.com" data-tags="contests bidding global">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Freelancer.com</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Contests</span>
+                                    <span class="tag">Bidding</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Global crowdsourcing marketplace with 50M+ users. Features project bidding and design contests.</p>
+                        <a href="https://www.freelancer.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="PeoplePerHour" data-tags="freelance UK europe">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">PeoplePerHour</div>
+                                <div class="platform-tags">
+                                    <span class="tag">UK/Europe</span>
+                                    <span class="tag">Hourly</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">UK-based freelance marketplace connecting businesses with skilled freelancers. Hourly and project-based work.</p>
+                        <a href="https://www.peopleperhour.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="99designs" data-tags="design creative freelance">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">99designs</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Design</span>
+                                    <span class="tag">Creative</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Global creative platform for designers. Specializes in graphic design, logo design, and branding projects.</p>
+                        <a href="https://99designs.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Contra" data-tags="freelance independent commission-free">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Contra</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Commission-Free</span>
+                                    <span class="tag">Modern</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge new">New</span>
+                        </div>
+                        <p class="platform-description">Commission-free platform for independent professionals. Modern interface with portfolio showcase and direct client connections.</p>
+                        <a href="https://contra.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="DesignCrowd" data-tags="design crowdsourcing creative">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">DesignCrowd</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Design</span>
+                                    <span class="tag">Contests</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Crowdsourced design platform with 900K+ designers. Custom design work through contests and one-to-one projects.</p>
+                        <a href="https://www.designcrowd.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="CloudPeeps" data-tags="marketing content freelance">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">CloudPeeps</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Marketing</span>
+                                    <span class="tag">Content</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Vetted community of marketing and content freelancers. Focus on content, social media, and digital marketing.</p>
+                        <a href="https://www.cloudpeeps.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="ServiceScape" data-tags="writing editing translation">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">ServiceScape</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Writing</span>
+                                    <span class="tag">Editing</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Professional marketplace for editors, translators, graphic designers, and writers. Vetted experts only.</p>
+                        <a href="https://www.servicescape.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Bark" data-tags="services local freelance">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Bark</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Services</span>
+                                    <span class="tag">Leads</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Connect with clients looking for professional services. Covers 1,000+ service categories from web design to tutoring.</p>
+                        <a href="https://www.bark.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Category -->
+            <div class="category-section" data-category="tech">
+                <div class="category-header">
+                    <span class="category-icon">💻</span>
+                    <h2>Tech & Developer Platforms</h2>
+                </div>
+                <div class="platforms-grid">
+                    <div class="platform-card" data-name="We Work Remotely" data-tags="tech startups remote">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">We Work Remotely</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Startups</span>
+                                    <span class="tag">Tech</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Top Rated</span>
+                        </div>
+                        <p class="platform-description">Largest remote work community with 4.5M+ monthly visitors. Strong focus on tech, design, and startup jobs.</p>
+                        <a href="https://weworkremotely.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Stack Overflow Jobs" data-tags="developers tech community">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Stack Overflow Jobs</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Developers</span>
+                                    <span class="tag">Community</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">Job board from the world's largest developer community. Find remote developer positions with detailed tech stacks.</p>
+                        <a href="https://stackoverflow.com/jobs" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="GitHub Jobs" data-tags="developers open-source">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">GitHub Jobs</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Developers</span>
+                                    <span class="tag">Open Source</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Remote developer jobs from companies using GitHub. Perfect for developers looking for remote opportunities.</p>
+                        <a href="https://jobs.github.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="AngelList" data-tags="startups equity tech">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">AngelList Talent</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Startups</span>
+                                    <span class="tag">Equity</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge new">New</span>
+                        </div>
+                        <p class="platform-description">Connect with startups offering remote positions. Transparent salary and equity data for tech roles.</p>
+                        <a href="https://angel.co/jobs" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Dice" data-tags="tech IT cybersecurity">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Dice</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Tech</span>
+                                    <span class="tag">IT</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Premier tech job board for IT professionals. Features remote positions in software, cybersecurity, and data science.</p>
+                        <a href="https://www.dice.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Honeypot" data-tags="developers europe vetted">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Honeypot</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Europe</span>
+                                    <span class="tag">Vetted</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Developer-focused job platform where companies apply to you. Strong presence in European remote market.</p>
+                        <a href="https://www.honeypot.io" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Hired" data-tags="tech software-engineer vetted">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Hired</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Tech</span>
+                                    <span class="tag">Vetted</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">Marketplace where companies apply to software engineers, designers, and data scientists. Transparent salary info upfront.</p>
+                        <a href="https://hired.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Turing" data-tags="developers AI-matched remote">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Turing</div>
+                                <div class="platform-tags">
+                                    <span class="tag">AI-Matched</span>
+                                    <span class="tag">Global</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge new">New</span>
+                        </div>
+                        <p class="platform-description">AI-powered platform connecting remote software developers with top US companies. Vetted talent network.</p>
+                        <a href="https://www.turing.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Gun.io" data-tags="freelance developers vetted">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Gun.io</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Freelance</span>
+                                    <span class="tag">Elite</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Vetted network of top freelance software developers. Rigorous screening process ensures quality talent.</p>
+                        <a href="https://gun.io" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Authentic Jobs" data-tags="designers developers creative">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Authentic Jobs</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Design</span>
+                                    <span class="tag">Creative</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Job board for designers, developers, and creative professionals. Focus on quality over quantity since 2005.</p>
+                        <a href="https://authenticjobs.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Landing.Jobs" data-tags="europe tech startups">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Landing.Jobs</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Europe</span>
+                                    <span class="tag">Tech</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">European tech job platform connecting professionals with startups and scale-ups. Strong remote job focus.</p>
+                        <a href="https://landing.jobs" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="CodementorX" data-tags="developers freelance hourly">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">CodementorX</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Developers</span>
+                                    <span class="tag">Freelance</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Freelance developer marketplace with on-demand experts. Instant hiring for part-time and full-time positions.</p>
+                        <a href="https://www.codementor.io/developers" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Working Not Working" data-tags="creative design advertising">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Working Not Working</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Creative</span>
+                                    <span class="tag">Premium</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge premium">Premium</span>
+                        </div>
+                        <p class="platform-description">Exclusive community for creative professionals in advertising, design, and marketing. Invite-only membership.</p>
+                        <a href="https://workingnotworking.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Crossover" data-tags="full-time remote high-paying">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Crossover</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Full-Time</span>
+                                    <span class="tag">$100K+</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Top Rated</span>
+                        </div>
+                        <p class="platform-description">Full-time remote positions with top global companies. Focus on high-paying ($100K+) tech and business roles.</p>
+                        <a href="https://www.crossover.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Dribbble" data-tags="designers creative portfolio">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Dribbble Jobs</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Design</span>
+                                    <span class="tag">Creative</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Job board for designers from the world's leading design community. Remote and on-site design opportunities.</p>
+                        <a href="https://dribbble.com/jobs" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="NodeFlair" data-tags="tech asia singapore">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">NodeFlair</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Asia</span>
+                                    <span class="tag">Tech</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Asia-focused tech job platform with strong presence in Singapore. Remote opportunities across Southeast Asia.</p>
+                        <a href="https://www.nodeflair.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global Online Jobs Category -->
+            <div class="category-section" data-category="global">
+                <div class="category-header">
+                    <span class="category-icon">🌍</span>
+                    <h2>Global Online Job Platforms</h2>
+                </div>
+                <div class="platforms-grid">
+                    <div class="platform-card" data-name="LinkedIn" data-tags="professional networking global">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">LinkedIn</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Professional</span>
+                                    <span class="tag">Networking</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Top Rated</span>
+                        </div>
+                        <p class="platform-description">World's largest professional network with millions of remote job listings. Filter by location to find remote opportunities.</p>
+                        <a href="https://www.linkedin.com/jobs" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Indeed" data-tags="global job-search aggregator">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Indeed</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Aggregator</span>
+                                    <span class="tag">Global</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">World's #1 job site with extensive remote job listings across all industries and experience levels.</p>
+                        <a href="https://www.indeed.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="ZipRecruiter" data-tags="matching AI global">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">ZipRecruiter</div>
+                                <div class="platform-tags">
+                                    <span class="tag">AI Matching</span>
+                                    <span class="tag">Fast</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">AI-powered job matching platform that sends your profile to employers. Quick applications and smart recommendations.</p>
+                        <a href="https://www.ziprecruiter.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Remotive" data-tags="remote community newsletter">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Remotive</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Community</span>
+                                    <span class="tag">Newsletter</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">Active remote job board with 50K+ subscribers. Weekly newsletter and Slack community for remote workers.</p>
+                        <a href="https://remotive.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="JustRemote" data-tags="global remote-first">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">JustRemote</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Remote-First</span>
+                                    <span class="tag">Global</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Discover remote jobs from companies across the globe. Features verified remote-first companies.</p>
+                        <a href="https://justremote.co" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Remote4Me" data-tags="international time-zones">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Remote4Me</div>
+                                <div class="platform-tags">
+                                    <span class="tag">International</span>
+                                    <span class="tag">Flexible</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge new">New</span>
+                        </div>
+                        <p class="platform-description">International remote job board with positions across all time zones. Focus on work-life balance.</p>
+                        <a href="https://remote4me.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="EuropeRemotely" data-tags="europe remote regional">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">EuropeRemotely</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Europe</span>
+                                    <span class="tag">Regional</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Remote jobs exclusively for Europe. Curated listings from European companies offering remote positions.</p>
+                        <a href="https://europeremotely.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Jobspresso" data-tags="curated remote quality">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Jobspresso</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Curated</span>
+                                    <span class="tag">Premium</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Hand-tested remote jobs in tech, marketing, customer support, and more. Every listing is verified before posting.</p>
+                        <a href="https://jobspresso.co" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="NoDesk" data-tags="digital-nomad remote global">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">NoDesk</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Digital Nomad</span>
+                                    <span class="tag">Global</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Job board for digital nomads and remote workers. Features location-independent positions worldwide.</p>
+                        <a href="https://nodesk.co" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Pangian" data-tags="community remote global">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Pangian</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Community</span>
+                                    <span class="tag">Global</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Global remote work community with job board. Connect with 100K+ remote professionals worldwide.</p>
+                        <a href="https://pangian.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="RemoteWoman" data-tags="women diversity remote">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">RemoteWoman</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Women</span>
+                                    <span class="tag">Diversity</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Remote jobs specifically curated for women. Focus on creating inclusive remote work opportunities.</p>
+                        <a href="https://remotewoman.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Remote Leaf" data-tags="aggregator search global">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Remote Leaf</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Aggregator</span>
+                                    <span class="tag">Search</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Remote job aggregator collecting positions from multiple sources. Advanced search and filtering options.</p>
+                        <a href="https://remoteleaf.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Remote.com" data-tags="global HR payroll">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Remote.com</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Global</span>
+                                    <span class="tag">HR Platform</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">Global HR platform for remote teams with job listings. Hire, manage, and pay remote workers anywhere.</p>
+                        <a href="https://remote.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Outsourcely" data-tags="remote startups long-term">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Outsourcely</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Startups</span>
+                                    <span class="tag">Long-Term</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Connect with startups for long-term remote positions. Focus on building lasting work relationships.</p>
+                        <a href="https://www.outsourcely.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Remotewide" data-tags="global remote curated">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Remotewide</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Global</span>
+                                    <span class="tag">Curated</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Curated remote job listings from around the world. Focus on quality positions from verified companies.</p>
+                        <a href="https://remotewide.co" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Workana" data-tags="latin-america freelance spanish">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Workana</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Latin America</span>
+                                    <span class="tag">Spanish</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Leading freelance platform in Latin America. Connects Spanish and Portuguese-speaking professionals with global clients.</p>
+                        <a href="https://www.workana.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="Arc" data-tags="developers freelance remote">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">Arc (formerly Codementor)</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Developers</span>
+                                    <span class="tag">Vetted</span>
+                                </div>
+                            </div>
+                            <span class="platform-badge">Popular</span>
+                        </div>
+                        <p class="platform-description">Vetted remote developer jobs and freelance opportunities. Pre-screened talent pool for quality matches.</p>
+                        <a href="https://arc.dev" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+
+                    <div class="platform-card" data-name="SimplyHired" data-tags="aggregator global search">
+                        <div class="platform-header">
+                            <div>
+                                <div class="platform-name">SimplyHired</div>
+                                <div class="platform-tags">
+                                    <span class="tag">Aggregator</span>
+                                    <span class="tag">Global</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="platform-description">Job search engine aggregating remote positions from thousands of websites. Extensive remote job filters.</p>
+                        <a href="https://www.simplyhired.com" target="_blank" class="platform-link">Visit Platform →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="aboutPage" class="page">
+        <section class="about-hero">
+            <div class="hero-content">
+                <h1>About Remote Jobs Hub</h1>
+                <p>Your trusted gateway to the world of remote work opportunities</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="about-content">
+                <div class="about-section">
+                    <h3>🎯 Our Mission</h3>
+                    <p>Remote Jobs Hub was created to solve a simple but frustrating problem: finding legitimate remote job opportunities shouldn't require visiting dozens of different websites, creating multiple accounts, and wasting hours filtering through unreliable listings.</p>
+                    <p>Our mission is to centralize the best remote job platforms in one easy-to-navigate hub, saving you time and helping you find your perfect remote opportunity faster.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>❌ The Problem</h3>
+                    <p><strong>Scattered Information:</strong> Remote job seekers waste countless hours jumping between different platforms, each with its own interface, search system, and quality standards.</p>
+                    <p><strong>Scam Concerns:</strong> Not all job platforms are trustworthy. Many sites feature spam, scams, or outdated listings that waste your valuable time.</p>
+                    <p><strong>Overwhelming Options:</strong> With hundreds of job sites available, it's difficult to know which platforms are worth your attention and which ones to avoid.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>✅ Our Solution</h3>
+                    <p><strong>Curated Selection:</strong> We've handpicked only the most reputable and effective remote job platforms, each vetted for quality and reliability.</p>
+                    <p><strong>Organized Categories:</strong> Jobs are organized into clear categories—Work-from-Home, Freelance, Tech, and Global—making it easy to find platforms that match your specific needs.</p>
+                    <p><strong>AI-Powered Recommendations:</strong> Our intelligent system highlights trending platforms and top picks based on current market data and user success rates.</p>
+                    <p><strong>Time-Saving Hub:</strong> Instead of bookmarking 20+ different sites, you have one centralized hub that connects you to all the best remote work resources.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>🌟 Why Trust Remote Jobs Hub?</h3>
+                    <p><strong>No Ads, No Spam:</strong> We don't sell your data or bombard you with ads. Our goal is simple: help you find great remote work.</p>
+                    <p><strong>Transparent Reviews:</strong> Every platform listed has been personally reviewed and verified by our team.</p>
+                    <p><strong>Regular Updates:</strong> We continuously monitor and update our listings to ensure you always have access to the most current and reliable platforms.</p>
+                    <p><strong>Free Forever:</strong> Remote Jobs Hub is completely free to use. We believe everyone deserves access to quality remote work opportunities.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Trusted Platforms</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Job Categories</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Free to Use</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Opportunities</div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3>🚀 Get Started Today</h3>
+                    <p>Ready to find your next remote opportunity? Head back to our homepage and explore the platforms that match your skills and career goals. Your dream remote job is just a click away!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
+                <span class="logo-icon">💼</span>
+                <span>Remote Jobs Hub</span>
+            </div>
+            <p style="margin-bottom: 1rem; opacity: 0.8;">Your centralized gateway to trusted remote job platforms worldwide.</p>
+            <div class="footer-links">
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('about')">About</a>
+            </div>
+            <p style="opacity: 0.6; font-size: 0.9rem; margin-top: 1rem;">© 2026 Remote Jobs Hub. Built to help you find your perfect remote opportunity.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            if (pageName === 'home') {
+                document.getElementById('homePage').classList.add('active');
+            } else if (pageName === 'about') {
+                document.getElementById('aboutPage').classList.add('active');
+            }
+
+            // Update nav links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+
+            // Close mobile menu if open
+            document.getElementById('navLinks').classList.remove('active');
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Search Functionality
+        function filterPlatforms() {
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            const cards = document.querySelectorAll('.platform-card');
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const tags = card.getAttribute('data-tags').toLowerCase();
+                const description = card.querySelector('.platform-description').textContent.toLowerCase();
+
+                if (name.includes(searchTerm) || tags.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide category sections if all cards are hidden
+            document.querySelectorAll('.category-section').forEach(section => {
+                const visibleCards = section.querySelectorAll('.platform-card[style="display: block;"], .platform-card:not([style*="display: none"])');
+                if (searchTerm && visibleCards.length === 0) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = 'block';
+                }
+            });
+        }
+
+        // Category Filter
+        let currentCategory = 'all';
+
+        function filterByCategory(category) {
+            currentCategory = category;
+            const sections = document.querySelectorAll('.category-section');
+            const buttons = document.querySelectorAll('.category-btn');
+
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide sections
+            if (category === 'all') {
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                });
+            } else {
+                sections.forEach(section => {
+                    const sectionCategory = section.getAttribute('data-category');
+                    if (sectionCategory === category) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+
+            // Clear search when changing categories
+            document.getElementById('searchBar').value = '';
+            filterPlatforms();
+        }
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const navLinks = document.getElementById('navLinks');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+
+            if (!nav.contains(event.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Add loading animation to platform cards on hover
+        document.querySelectorAll('.platform-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const link = this.querySelector('.platform-link');
+                if (link) {
+                    window.open(link.href, '_blank');
+                }
+            });
+        });
+
+        // Console welcome message
+        console.log('%c🚀 Welcome to Remote Jobs Hub!', 'color: #4F46E5; font-size: 20px; font-weight: bold;');
+        console.log('%cFind your perfect remote opportunity from 50+ trusted platforms', 'color: #6B7280; font-size: 14px;');
+    </script>
+</body>
+</html>
